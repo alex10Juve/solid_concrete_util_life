@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useFormik } from "formik";
+import { Field, Form, useFormik } from "formik";
 import {
   SearchValue,
   CalcuateTp,
@@ -58,7 +58,7 @@ function EntryValuesCarmenAndrade() {
 
   return (
     <div className="container-sm my-3">
-      <div className="row d-flex flex-column align-content-center">
+      {/* <div className="row d-flex flex-column align-content-center">
         <div className="col-sm-2 d-flex">
           <form
             onSubmit={formikInput.handleSubmit}
@@ -135,7 +135,7 @@ function EntryValuesCarmenAndrade() {
             Calcular
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -151,7 +151,6 @@ function EntryACI() {
     const errors = {};
     return errors;
   };
-
   const formik = useFormik({
     initialValues: {
       cover: 0,
@@ -162,103 +161,168 @@ function EntryACI() {
     },
     validateInputFields,
 
-    onSubmit: (values) => {
-      const val = 1 - (values.cxt - values.ci) / (values.c0 - values.ci);
-      const z = SearchValue(val);
-      const d28 = CalculateD28(values.ac);
-      // alert(val);
-      console.log(values.cxt);
-      console.log(values.ci);
-      console.log(values.c0);
-      console.log(val);
-      setResult(CalculateTt(d28, z, values.cover));
-      console.log(result);
-      setCalculated(true);
-    },
+    // onSubmit: (values) => {
+    //   const val = 1 - (values.cxt - values.ci) / (values.c0 - values.ci);
+    //   const z = SearchValue(val);
+    //   const d28 = CalculateD28(values.ac);
+    //   alert(val);
+    //   console.log(values.cxt);
+    //   console.log(values.ci);
+    //   console.log(values.c0);
+    //   console.log(val);
+    //   setResult(CalculateTt(d28, z, values.cover));
+    //   console.log(result);
+    //   setCalculated(true);
+    // },
   });
+
+  function CalculateResult() {
+    const val = 1 - (formik.values.cxt - formik.values.ci) / (formik.values.c0 - formik.values.ci);
+    const z = SearchValue(val);
+    const d28 = CalculateD28(formik.values.ac);
+    setResult(CalculateTt(d28, z, formik.values.cover));
+    setCalculated(true);
+    console.log("Z" + z.toString());
+  }
+
+
   return (
     <div className="container-sm  my-3">
       <div className="row d-flex flex-column align-content-center">
         <div className="col-sm-2 d-flex">
-          <form className="d-flex flex-column">
-            <div className="form-floating mb-sm-3">
-              <input
-                className="form-control"
-                id="cxt"
-                name="cxt"
-                type="number"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.cxt}
-              ></input>
-              <label className="small" htmlFor="cxt">
-                C(x,t)
-              </label>
-            </div>
+          {/* <Formik initialValues={
+            {
+              cover: 0,
+              c0: 0,
+              ci: 0,
+              ac: 0,
+              cxt: 0,
+            }
+          } onSubmit={(values) => {
+            try {
+              let val = 1 - (values.cxt - values.ci) / (values.c0 - values.ci);
+              let z = SearchValue(val);
+              let d28 = CalculateD28(values.ac);
+              console.log(values.cxt);
+              console.log(values.ci);
+              console.log(values.c0);
+              console.log(val);
+              setResult(CalculateTt(d28, z, values.cover));
+              setCalculated(true);
+            }
+            catch (err) {
+              alert(err);
+            }
+          }}> */}
+            <form className="d-flex flex-column">
+              <div className="form-floating mb-sm-3">
+                {/* <label className="small" htmlFor="cxt">
+                  C(x,t)
+                </label>
+                <Field name="cxt" id="cxt" type="number" placeholder="0">
 
-            <div className="form-floating mb-sm-3">
-              <input
-                className="form-control"
-                id="cover"
-                name="cover"
-                type="number"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.cover}
-              ></input>
-              <label className="small" htmlFor="cover">
-                Recubrimiento
-              </label>
-            </div>
+                </Field> */}
+                <input
+                  className="form-control"
+                  id="cxt"
+                  name="cxt"
+                  type="number"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.cxt}
+                ></input>
+                <label className="small" htmlFor="cxt">
+                  C(x,t)
+                </label>
+              </div>
 
-            <div className="form-floating mb-sm-3">
-              <input
-                className="form-control"
-                id="c0"
-                name="c0"
-                type="number"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.c0}
-              ></input>
-              <label className="small" htmlFor="c0">
-                C0
-              </label>
-            </div>
-            <div className="form-floating mb-sm-3">
-              <input
-                className="form-control"
-                id="ci"
-                name="ci"
-                type="number"
-                onChange={formik.handleChange}
-                // onBlur={formik.handleBlur}
-                value={formik.values.ci}
-              ></input>
-              <label className="small" htmlFor="ci">
-                Ci
-              </label>
-            </div>
-            <div className="form-floating mb-sm-3">
-              <input
-                className="form-control"
-                id="ac"
-                name="ac"
-                type="number"
-                onChange={formik.handleChange}
-                // onBlur={formik.handleBlur}
-                value={formik.values.ac}
-              ></input>
-              <label htmlFor="ac">Ac</label>
-            </div>
-            <button
-              type="button"
-              className="btn  btn-outline-secondary btn-sm mx-auto"
-              onClick={formik.handleSubmit}
-            >
-              Calcular
-            </button>
-          </form>
+              <div className="form-floating mb-sm-3">
+                {/* <label className="small" htmlFor="cover">
+                  Recubrimiento
+                </label>
+                <Field name="cover" id="cover" placeholder="0" type="number">
+
+                </Field> */}
+                <input
+                  className="form-control"
+                  id="cover"
+                  name="cover"
+                  type="number"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.cover}
+                ></input>
+                <label className="small" htmlFor="cover">
+                  Recubrimiento
+                </label>
+              </div>
+
+              <div className="form-floating mb-sm-3">
+                {/* <label className="small" htmlFor="c0">
+                  C0
+                </label>
+                <Field name="c0" id="c0" placeholder="0" type="number" /> */}
+
+                <input
+                  className="form-control"
+                  id="c0"
+                  name="c0"
+                  type="number"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.c0}
+                ></input>
+                <label className="small" htmlFor="c0">
+                  C0
+                </label>
+              </div>
+              <div className="form-floating mb-sm-3">
+                {/* <label className="small" htmlFor="ci">
+                  Ci
+                </label>
+                <Field name="ci" id="ci" placeholder="0" type="number">
+
+                </Field> */}
+                <input
+                  className="form-control"
+                  id="ci"
+                  name="ci"
+                  type="number"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.ci}
+                ></input>
+                <label className="small" htmlFor="ci">
+                  Ci
+                </label>
+              </div>
+              <div className="form-floating mb-sm-3">
+                {/* <label className="small" htmlFor="ac">
+                  Ac
+                </label>
+                <Field name="ac" id="ac" placeholder="0" type="number">
+
+                </Field> */}
+                <input
+                  className="form-control"
+                  id="ac"
+                  name="ac"
+                  type="number"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.ac}
+                ></input>
+                <label htmlFor="ac">Ac</label>
+              </div>
+              <button
+                type="button"
+                className="btn  btn-outline-secondary btn-sm mx-auto"
+                onClick={CalculateResult}
+              >
+                Calcular
+              </button>
+            </form>
+          {/* </Formik> */}
         </div>
       </div>
       <div className="row d-flex align-content-center justify-content-center">

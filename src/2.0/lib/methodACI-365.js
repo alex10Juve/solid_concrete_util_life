@@ -38,8 +38,8 @@ const TABLE_ERF = [
 ];
 
 export const SearchValue = (val) => {
-  const bestDiference = 100000;
-  const bestIndex = 0;
+  let bestDiference = 100000;
+  let bestIndex = 0;
   for (let index = 0; index < TABLE_ERF.length; index++) {
     const element = Math.abs(TABLE_ERF[index].erf - val);
     if (element < bestDiference) {
