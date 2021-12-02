@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useFormik } from "formik";
-
+import {
+  SearchValue,
+  CalcuateTp,
+  CalculateTi,
+  CalculateD28,
+  CalculateTt,
+} from "../lib/methodACI-365";
 export function EntryValues({ method, fields }) {
   function SwitchEntry() {
     if (method === "CA") return EntryValuesCarmenAndrade();
@@ -14,6 +20,9 @@ export function EntryValues({ method, fields }) {
 }
 
 function EntryValuesCarmenAndrade() {
+  const [result, setResult] = useState(0);
+  const [calculated, setCalculated] = useState(false);
+
   const validateInputFields = (values) => {
     const errors = {};
     if (!values.cover) errors.cover = "Campo requerido";
@@ -121,7 +130,7 @@ function EntryValuesCarmenAndrade() {
         <div className="col-sm-2 d-flex ">
           <button
             type="button"
-            class="btn  btn-outline-secondary btn-sm mx-auto"
+            className="btn  btn-outline-secondary btn-sm mx-auto"
           >
             Calcular
           </button>
@@ -136,6 +145,8 @@ function EntryEHE() {
 }
 
 function EntryACI() {
+  const [result, setResult] = useState(0);
+  const [calculated, setCalculated] = useState(false);
   const validateInputFields = (values) => {
     const errors = {};
     return errors;
@@ -152,7 +163,17 @@ function EntryACI() {
     validateInputFields,
 
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      const val = 1 - (values.cxt - values.ci) / (values.c0 - values.ci);
+      const z = SearchValue(val);
+      const d28 = CalculateD28(values.ac);
+      // alert(val);
+      console.log(values.cxt);
+      console.log(values.ci);
+      console.log(values.c0);
+      console.log(val);
+      setResult(CalculateTt(d28, z, values.cover));
+      console.log(result);
+      setCalculated(true);
     },
   });
   return (
@@ -200,48 +221,48 @@ function EntryACI() {
                 onBlur={formik.handleBlur}
                 value={formik.values.c0}
               ></input>
-              <label className="small" htmlFor="C0">
+              <label className="small" htmlFor="c0">
                 C0
               </label>
             </div>
             <div className="form-floating mb-sm-3">
               <input
                 className="form-control"
-                id="Ci"
-                name="Ci"
+                id="ci"
+                name="ci"
                 type="number"
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                // onBlur={formik.handleBlur}
                 value={formik.values.ci}
               ></input>
-              <label className="small" htmlFor="Ci">
+              <label className="small" htmlFor="ci">
                 Ci
               </label>
             </div>
             <div className="form-floating mb-sm-3">
               <input
                 className="form-control"
-                id="Ac"
-                name="Ac"
+                id="ac"
+                name="ac"
                 type="number"
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                // onBlur={formik.handleBlur}
                 value={formik.values.ac}
               ></input>
-              <label htmlFor="Ac">Ac</label>
+              <label htmlFor="ac">Ac</label>
             </div>
+            <button
+              type="button"
+              className="btn  btn-outline-secondary btn-sm mx-auto"
+              onClick={formik.handleSubmit}
+            >
+              Calcular
+            </button>
           </form>
         </div>
       </div>
       <div className="row d-flex align-content-center justify-content-center">
-        <div className="col-sm-2 d-flex ">
-          <button
-            type="button"
-            class="btn  btn-outline-secondary btn-sm mx-auto"
-          >
-            Calcular
-          </button>
-        </div>
+        {calculated && <h5>{result} (365 d)</h5>}
       </div>
     </div>
   );
