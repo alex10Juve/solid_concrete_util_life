@@ -1,16 +1,8 @@
 import React, { useState } from "react";
 import { MetodoCalculo } from "../lib/general";
-import  CustomDropdownList  from "./dropdownList_cmp";
 import { EntryValues } from "./entryValues_cmp";
 import { Presentation } from "./presentation_cmp";
 import { MethodSelection } from "./selectionMethod_cmp";
-
-
-const TESTITEMS = [
-    { value: "a" },
-    { value: "b" },
-    { value: "c" }
-]
 
 export function Main() {
 
@@ -21,6 +13,7 @@ export function Main() {
             <Presentation>
 
             </Presentation>
+
             <MethodSelection onChangeMethod={(newMethod) => setCurrentMethodIndex(newMethod)} method={currentMethodIndex}>
 
             </MethodSelection>

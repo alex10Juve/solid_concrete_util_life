@@ -1,6 +1,6 @@
 import { CementSelection } from "./cementSelection";
 import React, { useState } from "react";
-import { TipoCemento, CarmenAndradeTi, CarmenAndradeTp, ExposicionPorClorurosParaFactorAmbiental } from "../solidConcreteLib";
+import { TipoCemento, CarmenAndradeTi, CarmenAndradeTp, ExposicionPorClorurosParaFactorAmbiental } from "../2.0/lib/methodCarmenAndrade";
 import { AmbientalFactorSelectionByChloride } from "./ambientalFactorSelection";
 
 export function CAEntryFields() {
