@@ -37,6 +37,7 @@ const TABLE_ERF = [
   { z: 2.8, erf: 0.9999 },
 ];
 
+// TODO documment function
 export const SearchValue = (val) => {
   let bestDiference = 100000;
   let bestIndex = 0;
@@ -50,10 +51,11 @@ export const SearchValue = (val) => {
   return TABLE_ERF[bestIndex].z;
 };
 
+// TODO documment function
 export const CalculateD28 = (ac) => {
   return Math.pow(10, -11) * 12.5 * ac - 3 * Math.pow(10, -11);
 };
-
+// TODO documment function
 export const CalculateTi = (d28, z, cover) => {
   return (
     Math.pow(cover, 4) /
@@ -62,7 +64,7 @@ export const CalculateTi = (d28, z, cover) => {
 };
 
 export const CalcuateTp = 6;
-
-export const CalculateTt = (d28,z,cover) => {
-    return CalculateTi(d28,z,cover) + CalcuateTp;
-}
+// TODO documment function
+export const CalculateTt = (d28, z, cover) => {
+  return CalculateTi(d28, z, cover) + CalcuateTp;
+};

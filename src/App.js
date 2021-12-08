@@ -5,7 +5,7 @@ import './App.css';
 // import { Presentation } from './stateless_components/presentation';
 // import { EHE08 } from './functions_components/ehe-08Method';
 // import { MetodoCalculo, TipoCemento } from './solidConcreteLib';
-import {Main} from './2.0/funct_components/app_cmp';
+import {Main} from './2.0/app_cmp';
 
 function App() {
   // const [method, setMethod] = useState("");

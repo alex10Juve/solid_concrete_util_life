@@ -1,16 +1,20 @@
 export const MetodoCalculo = [
-    { name: "Carmen Andrade", value: "CA" },
-    { name: "Norma EHE-08", value: "EHE-08" },
-    { name: "ACI-365", value: "ACI-365" },
-]
-export const DropdownListClassName = "dropdown";
+  { key: "Carmen Andrade", value: "CA" },
+  { key: "Norma EHE-08", value: "EHE-08" },
+  { key: "ACI-365", value: "ACI-365" },
+];
 
-export const DropdownHeaderButtonClassName = "btn btn-secondary dropdown-toggle";
+export const SubMetodosACI = [
+  { key: "Corrosion", value: "ACI-Corrosion" },
+  { key: "Vida util", value: "ACI-Vida-util" },
+  { key: "Vida aproximada", value: "ACI-Vida-aproximada" },
+];
 
-export const DropdownUlClassName = "dropdown-menu show";
-
-export const DropdownLiItemClassName = "dropdown-item";
-
-export const DropdwonCurrentSelectionClassName = "my-2";
-
-export const EntryValuesContainerClassName="";
+export const SubMetodosEHE = [
+  { key: "Carbonatacion", value: "EHE-08-Carbonatacion" },
+  { key: "Cloruros", value: "EHE-08-Penetracion-de-cloruros" },
+  {
+    key: "Recubrimiento equivalente",
+    value: "EHE-08-Recubrimiento-equivalente",
+  },
+];

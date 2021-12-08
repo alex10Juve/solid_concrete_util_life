@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Formik, ErrorMessage, Field, Form } from "formik";
 import * as YUP from "yup";
-import { SearchValue} from "../lib/methodACI-365";
+import { SearchValue} from "../../lib/methodACI-365";
 // TODO:
 // Especificar unidades de medidas correspondientes a cada campo
 // Reiniciar formulario
