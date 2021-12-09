@@ -4,6 +4,12 @@ import * as YUP from "yup";
 
 function EHE08Chloride(props) {
   const initialValues = {
+    t:0,
+    shieldRatio:0,
+    cb:0,
+    cover:0,
+    tcement:0,
+    cth:0,
 
   }
 
