@@ -1,17 +1,28 @@
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { useState } from "react";
 import * as YUP from "yup";
+import DropdownComp from "../../stateless_components/dropdown_cmp";
+import {
+  Cair,
+  Cenv,
+  Coeffs,
+  MetodoCarbonatacionTiEHE08,
+  MetodoCarbonatacionTpEHE08,
+  Vcorr,
+} from "../../lib/methodEHE-08";
 
 export function EHECarbonatation() {
   const [result, setResult] = useState(0);
   const [calculated, setCalculated] = useState(false);
 
   const bridgeToCair = [
+    { key: "Seleccione", value: -1 },
     { key: "< 4.5%", value: 0 },
     { key: ">= 4.5%", value: 1 },
   ];
 
   const bridgeToCoeffs = [
+    { key: "Seleccione", value: -1 },
     { key: "Cemento Portland", value: 0 },
     { key: "Cemento Portland + 28% cenizas volantes", value: 1 },
     { key: "Cemento Portland + 9% humo de silice", value: 2 },
@@ -19,11 +30,13 @@ export function EHECarbonatation() {
   ];
 
   const bridgeToCenv = [
+    { key: "Seleccione", value: -1 },
     { key: "Protegido de la lluvia", value: 0 },
     { key: "Expuesto a la lluvia", value: 1 },
   ];
 
   const bridgeToVCorr = [
+    { key: "Seleccione", value: -1 },
     { key: "Normal-humedad alta", value: 0 },
     { key: "Normal-humedad media", value: 1 },
     { key: "Marina-aerea", value: 2 },
@@ -35,27 +48,35 @@ export function EHECarbonatation() {
   const initialValues = {
     cover: 0,
     shieldRatio: 0,
-    cb: 0,
-    vcorr: 0,
-    cenv: 0,
-    coeffs: 0,
-    cair: 0,
+    cb: -1,
     agingTime: 0,
+    fck: 0,
+    vcorr: -1, // table
+    cenv: -1, // table
+    coeffs: -1, // table
+    cair: -1, // table
   };
 
   const validationSchema = YUP.object({
-    cover: YUP.number("Recubrimiento debe ser especificado").positive(
-      "Debe ser mayor que cero"
-    ),
-    shieldRatio: YUP.number("Recubrimiento debe ser especificado").positive(
-      "Debe ser mayor que cero"
-    ),
-    cb: YUP.number("Recubrimiento debe ser especificado").positive(
-      "Debe ser mayor que cero"
-    ),
-    agingTime: YUP.number("Recubrimiento debe ser especificado").positive(
-      "Debe ser mayor que cero"
-    ),
+    // cover: YUP.number("Recubrimiento debe ser especificado").positive(
+    //   "Debe ser mayor que cero"
+    // ),
+    // shieldRatio: YUP.number("Recubrimiento debe ser especificado").positive(
+    //   "Debe ser mayor que cero"
+    // ),
+    // cb: YUP.number("Recubrimiento debe ser especificado").positive(
+    //   "Debe ser mayor que cero"
+    // ),
+    // agingTime: YUP.number("Recubrimiento debe ser especificado").positive(
+    //   "Debe ser mayor que cero"
+    // ),
+    // fck: YUP.number("Fck debe ser especificado").positive(
+    //   "Debe ser mayor que cero"
+    // ),
+    // vcorr: YUP.number().required().min(0, "Debe ser especificado"),
+    // cenv: YUP.number().required().min(0, "Debe ser especificado"),
+    // coeffs: YUP.number().required().min(0, "Debe ser especificado"),
+    // cair: YUP.number().required().min(0, "Debe ser especificado"),
   });
 
   return (
@@ -66,46 +87,73 @@ export function EHECarbonatation() {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(fields) => {
-              console.log(fields.fck);
-              console.log(fields.vcorr);
-              console.log(fields.shieldRatio);
+              const ti = MetodoCarbonatacionTiEHE08(
+                Cenv[fields.cenv].value,
+                Cair[fields.cair].value,
+                Coeffs[fields.coeffs].a,
+                Coeffs[fields.coeffs].a,
+                fields.fck,
+                fields.cover
+              );
+              console.log("TI=> " + ti);
+              const tp = MetodoCarbonatacionTpEHE08(
+                fields.shieldRatio,
+                fields.cover,
+                Vcorr[fields.vcorr].value
+              );
+              console.log("Tp=> " + tp);
+              setResult(ti + tp);
+              setCalculated(true);
             }}
           >
             <Form>
+              <DropdownComp
+                items={bridgeToCair}
+                nameField="cair"
+                header="Cair"
+              ></DropdownComp>
+
+              <DropdownComp
+                items={bridgeToCenv}
+                nameField="cenv"
+                header="Cb%"
+              ></DropdownComp>
+
+              <DropdownComp
+                items={bridgeToCoeffs}
+                nameField="coeffs"
+                header="Coeficientes"
+              ></DropdownComp>
+
+              <DropdownComp
+                items={bridgeToVCorr}
+                nameField="vcorr"
+                header="Vcorr%"
+              ></DropdownComp>
+
               <div className="form-floating mb-sm-3">
-                <Field id="cover" name="cover" className="form-control"></Field>
-                <ErrorMessage name="cover">
+                <Field id="fck" name="fck" className="form-control"></Field>
+                <ErrorMessage name="fck">
                   {(errorMsg) => (
                     <div className="error-message">{errorMsg}</div>
                   )}
                 </ErrorMessage>
-                <label htmlFor="cover" className="small">
-                  Recubrimiento(cm)
-                </label>
-              </div>
-              <div className="form-floating mb-sm-3">
-                <Field id="cb" name="cb" className="form-control"></Field>
-                <ErrorMessage name="cb">
-                  {(errorMsg) => (
-                    <div className="error-message">{errorMsg}</div>
-                  )}
-                </ErrorMessage>
-                <label htmlFor="cb" className="small">
-                  Cb(%)
+                <label htmlFor="fck" className="small">
+                  Fck
                 </label>
               </div>
               <div className="form-floating mb-sm-3">
                 <Field
-                  id="shielRatio"
-                  name="shielRatio"
+                  id="shieldRatio"
+                  name="shieldRatio"
                   className="form-control"
                 ></Field>
-                <ErrorMessage name="shielRatio">
+                <ErrorMessage name="shieldRatio">
                   {(errorMsg) => (
                     <div className="error-message">{errorMsg}</div>
                   )}
                 </ErrorMessage>
-                <label htmlFor="shielRatio" className="small">
+                <label htmlFor="shieldRatio" className="small">
                   Diametro armadura (mm)
                 </label>
               </div>
@@ -124,81 +172,27 @@ export function EHECarbonatation() {
                   Tiempo de envejecimiento
                 </label>
               </div>
-              <div className="form-floating mb-sm-3">
-                <Field
-                  as="select"
-                  id="coeffs"
-                  name="coeffs"
-                  className="form-control"
+              <div className="form-group">
+                <button
+                  type="submit"
+                  className="btn  btn-outline-secondary btn-sm"
                 >
-                  {bridgeToCoeffs.map((type) => {
-                    return (
-                      <option key={type.value} value={type.value}>
-                        {type.key}
-                      </option>
-                    );
-                  })}
-                </Field>
-                <ErrorMessage name="coeffs">
-                  {(errorMsg) => (
-                    <div className="error-message">{errorMsg}</div>
-                  )}
-                </ErrorMessage>
-                <label className="small dropdown-toggle" htmlFor="coeffs">
-                  Tipo cemento
-                </label>
-              </div>
-              <div className="form-floating mb-sm-3">
-                <Field
-                  as="select"
-                  id="vcorr"
-                  name="vcorr"
-                  className="form-control"
-                >
-                  {bridgeToVCorr.map((type) => {
-                    return (
-                      <option key={type.value} value={type.value}>
-                        {type.key}
-                      </option>
-                    );
-                  })}
-                </Field>
-                <ErrorMessage name="vcorr">
-                  {(errorMsg) => (
-                    <div className="error-message">{errorMsg}</div>
-                  )}
-                </ErrorMessage>
-                <label className="small dropdown-toggle" htmlFor="vcorr">
-                  Cs
-                </label>
-              </div>
-              <div className="form-floating mb-sm-3">
-                <Field
-                  as="select"
-                  id="cenv"
-                  name="cenv"
-                  className="form-control"
-                >
-                  {bridgeToCenv.map((type) => {
-                    return (
-                      <option key={type.value} value={type.value}>
-                        {type.key}
-                      </option>
-                    );
-                  })}
-                </Field>
-                <ErrorMessage name="cenv">
-                  {(errorMsg) => (
-                    <div className="error-message">{errorMsg}</div>
-                  )}
-                </ErrorMessage>
-                <label className="small dropdown-toggle" htmlFor="cenv">
-                  Cs
-                </label>
+                  Calcular
+                </button>
               </div>
             </Form>
           </Formik>
         </div>
+      </div>
+      <div className="row d-flex flex-column align-content-center my-3">
+        {calculated && (
+          <div className=" col-sm-3 d-flex">
+            <h6>Tiempo estimado: </h6>
+            <div className="d-flex mx-1">
+              <h6>{result}</h6>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -7,8 +7,9 @@ import { CarmenAndrade } from "./funct_components/CarmenAndrade/methodCarmenAndr
 import { EHECarbonatation } from "./funct_components/ehe-08/methodEhe-08Carbonatation_cmp";
 import { Presentation } from "./stateless_components/presentation_cmp";
 import { MethodSelection } from "./stateless_components/selectionMethod_cmp";
-import { EHE08Chloride } from "../functions_components/EHE-08Chloride";
-import { EHE08EquivalentCover } from "../functions_components/EHE-08EquivalentCover";
+import EHE08Chloride from "./funct_components/ehe-08/methodEhe-08Chloride_cmp";
+import EHE08EquivalentCover from "./funct_components/ehe-08/methodEhe-08EquivalentCover_cmp";
+//import { EHE08Chloride } from "../functions_components/EHE-08Chloride";
 
 export function Main() {
 
@@ -44,8 +45,8 @@ export function Main() {
                 return <EHECarbonatation> </EHECarbonatation>
             case "EHE-08-Penetracion-de-cloruros":
                 return <EHE08Chloride></EHE08Chloride>
-            case "EHE-08-Recubrimiento-equivalente":
-                return <EHE08EquivalentCover></EHE08EquivalentCover>
+             case "EHE-08-Recubrimiento-equivalente":
+                 return <EHE08EquivalentCover></EHE08EquivalentCover>
             default:
                 break;
         }
