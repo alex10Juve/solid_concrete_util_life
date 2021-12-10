@@ -12,12 +12,14 @@ import {
 } from "../../lib/methodEHE-08";
 
 const bridgeToTypeCement = [
+  { key: "Seleccione", value: -1 },
   { key: "Cemento Portland", value: 0 },
   { key: "Cemento Portland + 28% cenizas volantes", value: 1 },
   { key: "Cemento Portland + 65% escorias", value: 2 },
 ];
 
 const bridgeToVCorr = [
+  { key: "Seleccione", value: -1 },
   { key: "Normal-humedad alta", nomeclature: "IIa", value: 0 },
   { key: "Normal-humedad media", nomeclature: "IIb", value: 1 },
   { key: "Marina-aerea", nomeclature: "IIIa", value: 2 },
@@ -31,6 +33,7 @@ const bridgeToVCorr = [
 ];
 
 const bridgeToAc = [
+  { key: "Seleccione", value: -1 },
   { key: "a/c = 0.4", value: 0 },
   { key: "a/c = 0.45", value: 1 },
   { key: "a/c = 0.50", value: 2 },
@@ -39,6 +42,7 @@ const bridgeToAc = [
 ];
 
 const bridgeToGeneralExpositionClass = [
+  { key: "Seleccione", value: -1 },
   { key: "Marina area (d < 500m)", value: 0 },
   { key: "Marina area (500m < d < 5000m)", value: 1 },
   { key: "Marina sumergida ", value: 2 },
@@ -47,23 +51,27 @@ const bridgeToGeneralExpositionClass = [
 ];
 
 const bridgeToCth = [
+  { key: "Seleccione", value: -1 },
   { key: "Para estructuras de hormigon armado", value: 0 },
   { key: "Para estructuras de hormigon pretensado", value: 1 },
+  { key: "Introducir valor", value: 2 },
 ];
 
 function EHE08Chloride() {
   const [result, setResult] = useState(0);
   const [calculated, setCalculated] = useState(false);
+  const [chtMode, setCthMode] = useState("table");
   const initialValues = {
     cover: 0, // input
     t: 0, // input
     shieldRatio: 0, // input
     cb: 0, // input
-    cth: 0, // table
-    tcement: 0, // table
-    generalExpositionClass: 0, //table
-    ac: 0, // table
-    vcorr: 0,
+    cthInput: 0,
+    cth: -1, // table
+    tcement: -1, // table
+    generalExpositionClass: -1, //table
+    ac: -1, // table
+    vcorr: -1, // table
   };
 
   const validationSchema = YUP.object({
@@ -82,6 +90,9 @@ function EHE08Chloride() {
     tcement: YUP.number().required(
       "El tipo de cemento necesita ser especificado"
     ),
+    // TODO
+    // make a correct validation for cthInput.... is ony valid when is selected as input value
+    cthInput: YUP.number(),
     vcorr: YUP.number().required("Debe ser especficado"),
     cth: YUP.number().required("Debe ser especficado"),
     ac: YUP.number().required("Debe ser especficado"),
@@ -96,7 +107,6 @@ function EHE08Chloride() {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(fields) => {
-
               const dt0 = () => {
                 if (fields.ac === 0)
                   return TypeCementEHE08Chloride[fields.tcement].ac40;
@@ -109,11 +119,14 @@ function EHE08Chloride() {
                 else return TypeCementEHE08Chloride[fields.tcement].ac60;
               };
 
+              const cth =
+                chtMode === "input" ? fields.cthInput : Cth[fields.cth].value;
+
               const ti = MetodoPenetracionClorurosTiEHE08(
                 fields.cover,
                 fields.t,
                 fields.cb,
-                Cth[fields.cth].value,
+                cth,
                 GeneralExpositionClass[fields.generalExpositionClass].value,
                 dt0()
               );
@@ -195,7 +208,31 @@ function EHE08Chloride() {
                 items={bridgeToCth}
                 nameField="cth"
                 header={"Cth"}
+                onClick={(e) => {
+                  if (e.currentTarget.value === "2") {
+                    setCthMode("input");
+                  } else {
+                    setCthMode("table");
+                  }
+                }}
               ></DropdownComp>
+              {chtMode === "input" && (
+                <div className="form-floating mb-sm-3">
+                  <Field
+                    id="cthInput"
+                    name="cthInput"
+                    className="form-control"
+                  ></Field>
+                  <ErrorMessage name="cthInput">
+                    {(erroMsg) => (
+                      <div className="error-message">{erroMsg}</div>
+                    )}
+                  </ErrorMessage>
+                  <label htmlFor="cthInput" className="small">
+                    Cth
+                  </label>
+                </div>
+              )}
               <DropdownComp
                 items={bridgeToGeneralExpositionClass}
                 nameField="generalExpositionClass"

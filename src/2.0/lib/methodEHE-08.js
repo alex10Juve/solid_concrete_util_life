@@ -65,13 +65,16 @@ export function MetodoCarbonatacionTpEHE08(phi, d, vcorr) {
 
 // TODO documment function
 export function MetodoCarbonatacionTiEHE08(camb, cair, a, b, fck, d) {
-  var kc = camb * cair * a * Math.pow(fck + 8, b);
+  let fcm = fck + 8;
+  let kc = camb * cair * a * Math.pow(fcm, b);
+  console.clear();
   console.log("camb "+ camb);
   console.log("cair "+ cair);
   console.log("a " + a);
   console.log("b " + b);
   console.log("fck " + fck);
   console.log("d " + d);
+  console.log("kc " + kc);
   return Math.pow(d / kc, 2);
 }
 //END carbonatation
@@ -130,7 +133,21 @@ export function MetodoPenetracionClorurosTpEHE08(phi, d, vcorr) {
 }
 // TODO documment function
 export function MetodoPenetracionClorurosTiEHE08(cover, t, cb, cth, cs, dto) {
-  const kcl = 5615.7 * Math.sqrt(12 * dto * Math.pow((0.0767 / t, 0.5))) * (1 - Math.sqrt((cth - cb) / (cs - cb)));
-  return Math.pow(cover / kcl, 2);
+  const t0 = 0.0767;
+  const alpha = 5615.7
+  const numerator = cth-cb;
+  const denominator = cs - cb;
+  const dt = dto*Math.sqrt(t0/t);
+  console.clear();
+
+  console.log("Cover -> " + cover);
+  console.log("T -> " + t);
+  console.log("Cb -> " + cb);
+  console.log("Cth -> " + cth);
+  console.log("Cs -> " + cs);
+  console.log("Dto -> " + dto);
+  
+  const kcl = alpha * Math.sqrt(2*dt)*(1 -(Math.sqrt(numerator/denominator)))
+  return Math.pow((cover/kcl),2);
 }
 // END chloride penetration

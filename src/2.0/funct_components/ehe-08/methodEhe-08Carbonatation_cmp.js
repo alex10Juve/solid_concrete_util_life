@@ -48,7 +48,6 @@ export function EHECarbonatation() {
   const initialValues = {
     cover: 0,
     shieldRatio: 0,
-    cb: -1,
     agingTime: 0,
     fck: 0,
     vcorr: -1, // table
@@ -58,25 +57,22 @@ export function EHECarbonatation() {
   };
 
   const validationSchema = YUP.object({
-    // cover: YUP.number("Recubrimiento debe ser especificado").positive(
-    //   "Debe ser mayor que cero"
-    // ),
-    // shieldRatio: YUP.number("Recubrimiento debe ser especificado").positive(
-    //   "Debe ser mayor que cero"
-    // ),
-    // cb: YUP.number("Recubrimiento debe ser especificado").positive(
-    //   "Debe ser mayor que cero"
-    // ),
-    // agingTime: YUP.number("Recubrimiento debe ser especificado").positive(
-    //   "Debe ser mayor que cero"
-    // ),
-    // fck: YUP.number("Fck debe ser especificado").positive(
-    //   "Debe ser mayor que cero"
-    // ),
-    // vcorr: YUP.number().required().min(0, "Debe ser especificado"),
-    // cenv: YUP.number().required().min(0, "Debe ser especificado"),
-    // coeffs: YUP.number().required().min(0, "Debe ser especificado"),
-    // cair: YUP.number().required().min(0, "Debe ser especificado"),
+    cover: YUP.number().required("Recubrimiento debe ser especificado").positive(
+      "Debe ser mayor que cero"
+    ),
+    shieldRatio: YUP.number().required("Diametro de armadura debe ser especficado").positive(
+      "Debe ser mayor que cero"
+    ),
+    agingTime: YUP.number().required("Tiempo debe ser especificado").positive(
+      "Debe ser mayor que cero"
+    ),
+    fck: YUP.number().required("Fck debe ser especificado").positive(
+      "Debe ser mayor que cero"
+    ),
+    vcorr: YUP.number().oneOf([0,1,2,3,4,5],"Seleccione un valor"),
+    cenv: YUP.number().oneOf([0,1],"Seleccione un valor"),
+    coeffs: YUP.number().oneOf([0,1,2,3],"Seleccione un valor"),
+    cair: YUP.number().oneOf([0,1],"Seleccione un valor")
   });
 
   return (
@@ -131,6 +127,17 @@ export function EHECarbonatation() {
                 header="Vcorr%"
               ></DropdownComp>
 
+              <div className="form-floating mb-sm-3">
+                <Field id="cover" name="cover" className="form-control"></Field>
+                <ErrorMessage name="cover">
+                  {(errorMsg) => (
+                    <div className="error-message">{errorMsg}</div>
+                  )}
+                </ErrorMessage>
+                <label htmlFor="cover" className="small">
+                  Recubrimiento
+                </label>
+              </div>
               <div className="form-floating mb-sm-3">
                 <Field id="fck" name="fck" className="form-control"></Field>
                 <ErrorMessage name="fck">
