@@ -48,5 +48,5 @@ export function CalculateTp(resistivity, t, t0, q) {
 
 //TODO document function
 export function CalculateTi(cover,resistivity,t,t0,q,rcl,fa){
-  return (Math.pow(cover,2)*resistivity*Math.pow((t/t0),q)*rcl)/fa;
+  return (Math.pow(cover,2)*resistivity*Math.pow((t/t0),q)*rcl)/(fa);
 }

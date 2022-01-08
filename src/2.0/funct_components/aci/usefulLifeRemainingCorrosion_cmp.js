@@ -68,7 +68,7 @@ export function UsefulLifeRemainingCorrosion() {
                     {(erroMsg) => <div className="error-message">{erroMsg}</div>}
                   </ErrorMessage>
                   <label htmlFor="phi_initial" className="small">
-                    Phi inicial
+                    Phi<small>0</small>(mm)
                   </label>
                 </div>
                 <div className="form-floating mb-sm-3">

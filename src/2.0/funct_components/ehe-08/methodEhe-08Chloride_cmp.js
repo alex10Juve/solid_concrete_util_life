@@ -137,18 +137,18 @@ function EHE08Chloride() {
                 Vcorr[fields.vcorr].value
               );
 
-              console.log("Cb  ->" + fields.cb);
-              console.log("T  ->" + fields.t);
-              console.log("Cover  ->" + fields.cover);
-              console.log(
-                "Clase de exposicion  ->" +
-                  GeneralExpositionClass[fields.generalExpositionClass].value
-              );
-              console.log("Cth  ->" + Cth[fields.cth].value);
-              console.log("DT0 -> " + dt0());
+              // console.log("Cb  ->" + fields.cb);
+              // console.log("T  ->" + fields.t);
+              // console.log("Cover  ->" + fields.cover);
+              // console.log(
+              //   "Clase de exposicion  ->" +
+              //     GeneralExpositionClass[fields.generalExpositionClass].value
+              // );
+              // console.log("Cth  ->" + Cth[fields.cth].value);
+              // console.log("DT0 -> " + dt0());
 
-              console.log("TI ->" + ti);
-              console.log("TP ->" + tp);
+              // console.log("TI ->" + ti);
+              // console.log("TP ->" + tp);
               setResult(ti + tp);
               setCalculated(true);
             }}
@@ -160,7 +160,7 @@ function EHE08Chloride() {
                   {(erroMsg) => <div className="error-message">{erroMsg}</div>}
                 </ErrorMessage>
                 <label htmlFor="cover" className="small">
-                  Recubrimiento
+                  Recubrimiento(mm)
                 </label>
               </div>
               <div className="form-floating mb-sm-3">
@@ -173,7 +173,7 @@ function EHE08Chloride() {
                   {(erroMsg) => <div className="error-message">{erroMsg}</div>}
                 </ErrorMessage>
                 <label htmlFor="shieldRatio" className="small">
-                  Diametro de la armadura
+                  Diametro de la armadura(mm)
                 </label>
               </div>
               <div className="form-floating mb-sm-3">
@@ -182,7 +182,7 @@ function EHE08Chloride() {
                   {(erroMsg) => <div className="error-message">{erroMsg}</div>}
                 </ErrorMessage>
                 <label htmlFor="t" className="small">
-                  Tiempo
+                  Tiempo(años)
                 </label>
               </div>
               <div className="form-floating mb-sm-3">
@@ -191,7 +191,7 @@ function EHE08Chloride() {
                   {(erroMsg) => <div className="error-message">{erroMsg}</div>}
                 </ErrorMessage>
                 <label htmlFor="cb" className="small">
-                  Cb
+                  Cb(%)
                 </label>
               </div>
               <DropdownComp

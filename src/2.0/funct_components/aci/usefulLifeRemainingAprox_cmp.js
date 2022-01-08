@@ -65,7 +65,7 @@ export function UsefulLifeRemainingAproximate() {
                   {(erroMsg) => <div className="error-message">{erroMsg}</div>}
                 </ErrorMessage>
                 <label htmlFor="c0" className="small">
-                  C0
+                  C<small>0</small>
                 </label>
               </div>
               <div className="form-floating mb-sm-3">

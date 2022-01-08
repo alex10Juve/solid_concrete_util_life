@@ -45,7 +45,6 @@ export function UsefulLife() {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(fields) => {
-              console.log("SUBMIT");
               const erf =
                 1 - (fields.cxt - fields.ci) / (fields.c0 - fields.ci);
               const z = SearchValue(erf);

@@ -183,7 +183,7 @@ function EHE08EquivalentCover(props) {
           <div className=" col-sm-3 d-flex">
             <h6>Tiempo estimado: </h6>
             <div className="d-flex mx-1">
-              <h6>{result}</h6>
+              <h6>{result} (mm)</h6>
             </div>
           </div>
         )}

@@ -14,7 +14,7 @@ export function CarmenAndrade() {
 
   const initialValues = {
     cover: 0,
-    initializationTime: 0,
+    // initializationTime: 0,
     resistivity: 0,
     tInput: 0,
     t0: 0,
@@ -26,9 +26,9 @@ export function CarmenAndrade() {
     cover: YUP.number()
       .required("Recubrimiento debe ser especificado")
       .positive("Debe ser mayor que cero"),
-    initializationTime: YUP.number("Invalido")
-      .required("C(x,t) debe ser especificado")
-      .positive("Debe ser mayor que cero"),
+    // initializationTime: YUP.number("Invalido")
+    //   .required("C(x,t) debe ser especificado")
+    //   .positive("Debe ser mayor que cero"),
     resistivity: YUP.number("Invalido")
       .required("Ci debe ser especificado")
       .positive("Debe ser mayor que cero"),
@@ -80,8 +80,7 @@ export function CarmenAndrade() {
                 fields.t0,
                 TipoCemento[fields.typeCement].q.value,
                 TipoCemento[fields.typeCement].rcl.value,
-                ExposicionPorClorurosParaFactorAmbiental[fields.ambientalFactor]
-                  .fa.value
+                ExposicionPorClorurosParaFactorAmbiental[fields.ambientalFactor].fa.value
               );
               setResult(TP + TI);
               setCalculated(true);
@@ -106,10 +105,10 @@ export function CarmenAndrade() {
                   )}
                 </ErrorMessage>
                 <label htmlFor="cover" className="small">
-                  Recubrimiento
+                  Recubrimiento(cm)
                 </label>
               </div>
-              <div className="form-floating mb-sm-3">
+              {/* <div className="form-floating mb-sm-3">
                 <Field
                   id="initializationTime"
                   name="initializationTime"
@@ -123,7 +122,7 @@ export function CarmenAndrade() {
                 <label htmlFor="initializationTime" className="small">
                   Tiempo de iniciacion
                 </label>
-              </div>
+              </div> */}
               <div className="form-floating mb-sm-3">
                 <Field
                   id="resistivity"
@@ -151,7 +150,7 @@ export function CarmenAndrade() {
                   )}
                 </ErrorMessage>
                 <label htmlFor="tInput" className="small">
-                  T
+                  T(años)
                 </label>
               </div>
               <div className="form-floating mb-sm-3">
@@ -162,7 +161,7 @@ export function CarmenAndrade() {
                   )}
                 </ErrorMessage>
                 <label htmlFor="t0" className="small">
-                  T0
+                  T0(años)
                 </label>
               </div>
               <div className="form-floating mb-sm-3">

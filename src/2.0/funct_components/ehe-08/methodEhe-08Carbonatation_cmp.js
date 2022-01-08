@@ -48,7 +48,7 @@ export function EHECarbonatation() {
   const initialValues = {
     cover: 0,
     shieldRatio: 0,
-    agingTime: 0,
+    // agingTime: 0,
     fck: 0,
     vcorr: -1, // table
     cenv: -1, // table
@@ -63,9 +63,9 @@ export function EHECarbonatation() {
     shieldRatio: YUP.number().required("Diametro de armadura debe ser especficado").positive(
       "Debe ser mayor que cero"
     ),
-    agingTime: YUP.number().required("Tiempo debe ser especificado").positive(
-      "Debe ser mayor que cero"
-    ),
+    // agingTime: YUP.number().required("Tiempo debe ser especificado").positive(
+    //   "Debe ser mayor que cero"
+    // ),
     fck: YUP.number().required("Fck debe ser especificado").positive(
       "Debe ser mayor que cero"
     ),
@@ -135,7 +135,7 @@ export function EHECarbonatation() {
                   )}
                 </ErrorMessage>
                 <label htmlFor="cover" className="small">
-                  Recubrimiento
+                  Recubrimiento(mm)
                 </label>
               </div>
               <div className="form-floating mb-sm-3">
@@ -146,7 +146,7 @@ export function EHECarbonatation() {
                   )}
                 </ErrorMessage>
                 <label htmlFor="fck" className="small">
-                  Fck
+                  Fck(Mpa)
                 </label>
               </div>
               <div className="form-floating mb-sm-3">
@@ -164,7 +164,7 @@ export function EHECarbonatation() {
                   Diametro armadura (mm)
                 </label>
               </div>
-              <div className="form-floating mb-sm-3">
+              {/* <div className="form-floating mb-sm-3">
                 <Field
                   id="agingTime"
                   name="agingTime"
@@ -178,7 +178,7 @@ export function EHECarbonatation() {
                 <label htmlFor="agingTime" className="small">
                   Tiempo de envejecimiento
                 </label>
-              </div>
+              </div> */}
               <div className="form-group">
                 <button
                   type="submit"
