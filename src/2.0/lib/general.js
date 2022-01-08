@@ -5,9 +5,9 @@ export const MetodoCalculo = [
 ];
 
 export const SubMetodosACI = [
-  { key: "Corrosion", value: "ACI-Corrosion" },
+  { key: "Vida util remanente por corrosion", value: "ACI-Corrosion" },
   { key: "Vida util", value: "ACI-Vida-util" },
-  { key: "Vida aproximada", value: "ACI-Vida-aproximada" },
+  { key: "Vida util residual aproximada", value: "ACI-Vida-aproximada" },
 ];
 
 export const SubMetodosEHE = [

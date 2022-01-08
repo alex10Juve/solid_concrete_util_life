@@ -9,7 +9,7 @@ import {
 } from "../../lib/methodCarmenAndrade";
 
 export function CarmenAndrade() {
-  const [result, setResult] = useState(0);
+  const [result, setResult] = useState({});
   const [calculated, setCalculated] = useState(false);
 
   const initialValues = {
@@ -18,7 +18,9 @@ export function CarmenAndrade() {
     resistivity: 0,
     tInput: 0,
     t0: 0,
-    typeCement: 0,
+    // typeCement: 0,
+    q:0,
+    rcl:0,
     ambientalFactor: 0,
   };
 
@@ -38,9 +40,15 @@ export function CarmenAndrade() {
     t0: YUP.number("Invalido")
       .required("T0 debe ser especificado")
       .positive("Debe ser mayor que cero"),
-    typeCement: YUP.number("Invalido").required(
-      "Tipo cemento debe ser especificado"
-    ),
+    q:YUP.number("Invalido")
+      .required("T0 debe ser especificado")
+      .positive("Debe ser mayor que cero"),
+    rcl:YUP.number("Invalido")
+      .required("T0 debe ser especificado")
+      .positive("Debe ser mayor que cero"),
+    // typeCement: YUP.number("Invalido").required(
+    //   "Tipo cemento debe ser especificado"
+    // ),
     ambientalFactor: YUP.number("Invalido").required(
       "Factor ambiental debe ser especificado"
     ),
@@ -67,22 +75,22 @@ export function CarmenAndrade() {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(fields) => {
-              const TP = CalculateTp(
+              const tp = CalculateTp(
                 fields.resistivity,
                 fields.tInput,
                 fields.t0,
                 TipoCemento[fields.typeCement].q.value
               );
-              const TI = CalculateTi(
+              const ti = CalculateTi(
                 fields.cover,
                 fields.resistivity,
                 fields.tInput,
                 fields.t0,
-                TipoCemento[fields.typeCement].q.value,
-                TipoCemento[fields.typeCement].rcl.value,
+                fields.q,
+                fields.rcl,
                 ExposicionPorClorurosParaFactorAmbiental[fields.ambientalFactor].fa.value
               );
-              setResult(TP + TI);
+              setResult({Ti:ti,Tp:tp});
               setCalculated(true);
             }}
             // onReset={(fields) => {
@@ -165,6 +173,28 @@ export function CarmenAndrade() {
                 </label>
               </div>
               <div className="form-floating mb-sm-3">
+                <Field id="q" name="q" className="form-control"></Field>
+                <ErrorMessage name="q">
+                  {(errorMsg) => (
+                    <div className="error-message">{errorMsg}</div>
+                  )}
+                </ErrorMessage>
+                <label htmlFor="t0" className="small">
+                  Factor de edad
+                </label>
+              </div>
+              <div className="form-floating mb-sm-3">
+                <Field id="rcl" name="rcl" className="form-control"></Field>
+                <ErrorMessage name="rcl">
+                  {(errorMsg) => (
+                    <div className="error-message">{errorMsg}</div>
+                  )}
+                </ErrorMessage>
+                <label htmlFor="rcl" className="small">
+                  Factor de retardo
+                </label>
+              </div>
+              {/* <div className="form-floating mb-sm-3">
                 <Field
                   as="select"
                   id="typeCement"
@@ -187,7 +217,7 @@ export function CarmenAndrade() {
                 <label className="small dropdown-toggle" htmlFor="typeCement">
                   Tipo cemento
                 </label>
-              </div>
+              </div> */}
               <div className="form-floating mb-sm-3">
                 <Field
                   as="select"
@@ -225,12 +255,18 @@ export function CarmenAndrade() {
       </div>
       <div className="row d-flex flex-column align-content-center my-3">
         {calculated && (
-          <div className=" col-sm-3 d-flex">
-            <h6>Tiempo estimado: </h6>
-            <div className="d-flex mx-1">
-              <h6>{result}</h6>
-            </div>
-          </div>
+         <>
+         <div className=" col-sm-2 mx-auto">
+           <h6>Ti: {result.Ti}</h6>
+         </div>
+         <div className=" col-sm-2 mx-auto">
+           <h6>Tp: {result.Tp}</h6>
+         </div>
+         <div className=" col-sm-3 mx-auto text-center">
+           <h6>Tiempo estimado: {result.Ti + result.Tp} años</h6>
+         </div>
+         <div className=" col-sm-5 mx-auto"></div>
+         </>
         )}
       </div>
     </div>

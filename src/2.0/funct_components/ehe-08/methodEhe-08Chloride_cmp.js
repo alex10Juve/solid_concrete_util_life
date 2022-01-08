@@ -58,7 +58,7 @@ const bridgeToCth = [
 ];
 
 function EHE08Chloride() {
-  const [result, setResult] = useState(0);
+  const [result, setResult] = useState({});
   const [calculated, setCalculated] = useState(false);
   const [chtMode, setCthMode] = useState("table");
   const initialValues = {
@@ -149,7 +149,7 @@ function EHE08Chloride() {
 
               // console.log("TI ->" + ti);
               // console.log("TP ->" + tp);
-              setResult(ti + tp);
+              setResult({Ti:ti,Tp:tp});
               setCalculated(true);
             }}
           >
@@ -255,14 +255,20 @@ function EHE08Chloride() {
           </Formik>
         </div>
       </div>
-      <div className="row d-flex flex-column align-content-center my-3">
+      <div className="row d-flex flex-column  my-3">
         {calculated && (
-          <div className=" col-sm-3 d-flex">
-            <h6>Tiempo estimado: </h6>
-            <div className="d-flex mx-1">
-              <h6>{result}</h6>
-            </div>
+          <>
+          <div className=" col-sm-2 mx-auto">
+            <h6>Ti: {result.Ti}</h6>
           </div>
+          <div className=" col-sm-2 mx-auto">
+            <h6>Tp: {result.Tp}</h6>
+          </div>
+          <div className=" col-sm-3 mx-auto text-center">
+            <h6>Tiempo estimado: {result.Ti + result.Tp} años</h6>
+          </div>
+          <div className=" col-sm-5 mx-auto"></div>
+          </>
         )}
       </div>
     </div>

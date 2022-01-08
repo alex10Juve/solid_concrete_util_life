@@ -12,7 +12,7 @@ import {
 } from "../../lib/methodEHE-08";
 
 export function EHECarbonatation() {
-  const [result, setResult] = useState(0);
+  const [result, setResult] = useState({});
   const [calculated, setCalculated] = useState(false);
 
   const bridgeToCair = [
@@ -91,14 +91,14 @@ export function EHECarbonatation() {
                 fields.fck,
                 fields.cover
               );
-              console.log("TI=> " + ti);
+              // console.log("TI=> " + ti);
               const tp = MetodoCarbonatacionTpEHE08(
                 fields.shieldRatio,
                 fields.cover,
                 Vcorr[fields.vcorr].value
               );
               console.log("Tp=> " + tp);
-              setResult(ti + tp);
+              setResult({Ti:ti,Tp:tp});
               setCalculated(true);
             }}
           >
@@ -193,12 +193,18 @@ export function EHECarbonatation() {
       </div>
       <div className="row d-flex flex-column align-content-center my-3">
         {calculated && (
-          <div className=" col-sm-3 d-flex">
-            <h6>Tiempo estimado: </h6>
-            <div className="d-flex mx-1">
-              <h6>{result}</h6>
-            </div>
+          <>
+          <div className=" col-sm-2 mx-auto">
+            <h6>Ti: {result.Ti}</h6>
           </div>
+          <div className=" col-sm-2 mx-auto">
+            <h6>Tp: {result.Tp}</h6>
+          </div>
+          <div className=" col-sm-3 mx-auto text-center">
+            <h6>Tiempo estimado: {result.Ti + result.Tp} años</h6>
+          </div>
+          <div className=" col-sm-5 mx-auto"></div>
+          </>
         )}
       </div>
     </div>
